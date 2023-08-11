@@ -1,0 +1,43 @@
+{
+  // Use workspace typescript version
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Prettier
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Eslint
+  "eslint.codeActionsOnSave.mode": "all",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+
+  // Pretty TS Errors - Run in different process until perf issues are solved by extension maintainers
+  "extensions.experimental.affinity": {
+    "yoavbls.pretty-ts-errors": 1
+  },
+
+  // Edit open and close HTML tags together
+  "editor.linkedEditing": true,
+  "editor.wordWrap": "on",
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "cSpell.words": [
+    "callees",
+    "classname",
+    "contentlayer",
+    "DEVTO",
+    "fmoretti",
+    "forem",
+    "franmoretti",
+    "HASHNODE",
+    "Lucide",
+    "notionhq",
+    "routepath",
+    "tailwindcss",
+    "typecheck",
+    "upsert"
+  ]
+}

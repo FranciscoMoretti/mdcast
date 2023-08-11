@@ -1,0 +1,35 @@
+{
+  "config": {
+    "notion": {
+      "connection_settings": {
+        "token": "NOTION_TOKEN"
+      }
+    },
+    "github": {
+      "connection_settings": {
+        "token": "GH_TOKEN",
+        "owner": "GH_OWNER",
+        "repo": "GH_REPO",
+        "branch": "GH_BRANCH"
+      }
+    },
+    "devto": {
+      "connection_settings": {
+        "api_key": "DEVTO_API_KEY",
+        "organization_id": "DEVTO_ORG_ID"
+      }
+    },
+    "hashnode": {
+      "connection_settings": {
+        "token": "HASHNODE_TOKEN",
+        "publication_id": "HASHNODE_PUB_ID"
+      }
+    },
+    "medium": {
+      "connection_settings": {
+        "token": "MEDIUM_TOKEN",
+        "publication_name": "MEDIUM_PUB_NAME"
+      }
+    }
+  }
+}
