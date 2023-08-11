@@ -64,7 +64,7 @@ class DevToClient {
     return String(sanitized);
   }
 
-  async post(url: string, dryRun?: boolean) {
+  async post(dryRun?: boolean) {
     const normalizedTags = this.postData.tags
       ? this.postData.tags.split(",").map((tag) => normalizeTag(tag))
       : [];

@@ -91,7 +91,7 @@ class HashnodeClient {
     throw Error(`Tag ${queryTag} not found in dictionary`);
   }
 
-  async post(url: string, dryRun?: boolean) {
+  async post(dryRun?: boolean) {
     //get tags
     let hashNodeTags: HashnodeTag[] = [];
     const inputTags = this.postData.tags;

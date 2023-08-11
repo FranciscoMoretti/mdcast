@@ -32,7 +32,7 @@ class MediumClient {
     this.tagsDictionary = this.loadFromFile();
   }
 
-  async post(url: string, dryRun?: boolean) {
+  async post(dryRun?: boolean) {
     //get user ID
     const {
       data: {

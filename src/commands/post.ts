@@ -21,17 +21,17 @@ export default async function post(
 
   if (platforms.includes(Platforms.DEVTO)) {
     const devto = new DevToClient(config.devto, postData);
-    promises.push(devto.post(url, dryRun));
+    promises.push(devto.post(dryRun));
   }
 
   if (platforms.includes(Platforms.HASHNODE)) {
     const hashnode = new HashnodeClient(config.hashnode, postData);
-    promises.push(hashnode.post(url, dryRun));
+    promises.push(hashnode.post(dryRun));
   }
 
   if (platforms.includes(Platforms.MEDIUM)) {
     const medium = new MediumClient(config.medium, postData);
-    promises.push(medium.post(url, dryRun));
+    promises.push(medium.post(dryRun));
   }
 
   await Promise.all(promises).then(() =>
