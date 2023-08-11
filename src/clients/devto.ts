@@ -1,4 +1,4 @@
-import { ConfigDevTo } from "./../types/config";
+import { ConfigDevTo } from "../types/config";
 import {
   DevToConnectionSettings,
   DevToOptions,

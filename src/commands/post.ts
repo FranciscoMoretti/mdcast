@@ -1,10 +1,12 @@
-import DevToClient from "../clients/devto-client";
-import HashnodeClient from "../clients/hashnode-client";
-import { postDataFromMarkdown } from "../clients/markdown-builder";
-import MediumClient from "../clients/medium-client";
+import DevToClient from "../clients/devto";
+import HashnodeClient from "../clients/hashnode";
+import { markdownToPost } from "../utils/markdown-to-post";
+import MediumClient from "../clients/medium";
 import Config from "../types/config";
 import GlobalOptions, { Platforms } from "../types/global-options";
 import { Post } from "../types/post";
+import MarkdownClient from "../clients/markdown";
+import { validatePath } from "../utils/validate-path";
 
 type PostOptions = GlobalOptions & {
   platforms: Platforms[];
@@ -16,8 +18,10 @@ export default async function post(
   { config, platforms, dryRun }: PostOptions
 ) {
   const promises = [];
+  validatePath(path);
 
-  const postData: Post = await postDataFromMarkdown(path);
+  const markdownClient = new MarkdownClient(path);
+  const postData: Post = await markdownToPost(markdownClient);
 
   if (platforms.includes(Platforms.DEVTO)) {
     const devto = new DevToClient(config.devto, postData);

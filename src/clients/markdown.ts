@@ -36,7 +36,7 @@ function removeFileExtension(filePath: string): string {
   return fileNameWithoutExtension;
 }
 
-class Markdown {
+class MarkdownClient {
   filePath: string;
   file: any;
 
@@ -78,7 +78,7 @@ class Markdown {
         () => (tree: Root) => {
           visit(tree, (node: Nodes) => {
             if (node.type === "link") {
-              let url = node.url;
+              let { url } = node;
               url = normalizeObsidianAbsolutePath(url);
               if (url.startsWith("/")) {
                 url = removeFileExtension(url);
@@ -130,4 +130,4 @@ class Markdown {
   }
 }
 
-export default Markdown;
+export default MarkdownClient;
