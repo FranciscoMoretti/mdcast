@@ -1,14 +1,9 @@
-import Config, { ConfigNotion } from "../types/config";
-import Notion from "./notion-client";
-import { NotionProperties } from "../types/clients/notion";
+import Config from "../types/config";
 import { Post } from "../types/post";
 import path from "path";
 import Markdown from "./markdown-client";
 
-export async function postDataFromMarkdown(
-  config: ConfigNotion,
-  filePath: string
-) {
+export async function postDataFromMarkdown(filePath: string) {
   // const filePath = path.resolve(process.cwd(), url);
   // publish from a local file
   if (path.extname(filePath).toLowerCase().indexOf("md") === -1) {
@@ -16,7 +11,7 @@ export async function postDataFromMarkdown(
     throw Error("Incorrect file extension provided");
   }
 
-  const client = new Markdown(config, filePath);
+  const client = new Markdown(filePath);
   await client.setup();
 
   const markdown = await client.getMarkdown();

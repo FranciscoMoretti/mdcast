@@ -1,14 +1,13 @@
-import Config from "./config"
+import Config from "./config";
 
 type GlobalOptions = {
-  config: Config
-}
+  config: Config;
+};
 
 export enum Platforms {
-  DEVTO = 'devto',
-  HASHNODE = 'hashnode',
-  MEDIUM = 'medium',
-  GITHUB = 'github'
+  DEVTO = "devto",
+  HASHNODE = "hashnode",
+  MEDIUM = "medium",
 }
 
-export default GlobalOptions
+export default GlobalOptions;

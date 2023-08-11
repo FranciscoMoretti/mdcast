@@ -1,5 +1,3 @@
-import { NotionOptions } from "../types/clients/notion";
-import { ConfigNotion } from "../types/config";
 import fs from "fs";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
@@ -39,13 +37,11 @@ function removeFileExtension(filePath: string): string {
 }
 
 class Markdown {
-  options: NotionOptions;
   filePath: string;
   file: any;
 
-  constructor(config: ConfigNotion, filePath: string) {
+  constructor(filePath: string) {
     this.filePath = filePath;
-    this.options = config.options;
 
     this.file = "";
   }

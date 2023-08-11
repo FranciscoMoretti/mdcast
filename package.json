@@ -41,7 +41,6 @@
     "gray-matter": "^4.0.3",
     "inquirer": "^9.1.4",
     "nanoid": "3.3.4",
-    "notion-to-md": "^2.5.5",
     "octokit": "^2.0.11",
     "remark-frontmatter": "^4.0.1",
     "remark-gfm": "^3.0.1",

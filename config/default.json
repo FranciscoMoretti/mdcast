@@ -1,35 +1,5 @@
 {
   "config": {
-    "notion": {
-      "options": {
-        "skip_block_types": [
-        
-        ]
-      }
-    },
-    "github": {
-      "options": {
-        "image_path": "public",
-        "image_prefix": "/",
-        "article_path": "content",
-        "properties": {
-          "title": "Title for Blog",
-          "date": "Publishing Date",
-          "slug": "Slug"
-        },
-        "add_default_frontmatter": true,
-        "frontmatter_labels": {
-          "title": "title",
-          "date": "date"
-        },
-        "extra_frontmatter": {
-          "excerpt": "this is description"
-        },
-        "extra_frontmatter_mapper": {
-          "excerpt": "Description"
-        }
-      }
-    },
     "devto": {
       "options": {
         "should_publish": false,

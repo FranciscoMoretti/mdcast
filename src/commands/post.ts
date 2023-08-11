@@ -1,5 +1,4 @@
 import DevToClient from "../clients/devto-client";
-import GitHubClient from "../clients/github-client";
 import HashnodeClient from "../clients/hashnode-client";
 import { postDataFromMarkdown } from "../clients/markdown-builder";
 import MediumClient from "../clients/medium-client";
@@ -18,12 +17,7 @@ export default async function post(
 ) {
   const promises = [];
 
-  const postData: Post = await postDataFromMarkdown(config.notion, url);
-
-  // if (platforms.includes(Platforms.GITHUB)) {
-  //   const github = new GitHubClient(config.github, config.notion);
-  //   promises.push(github.post(url, dryRun));
-  // }
+  const postData: Post = await postDataFromMarkdown(url);
 
   if (platforms.includes(Platforms.DEVTO)) {
     const devto = new DevToClient(config.devto, postData);
