@@ -12,12 +12,12 @@ type PostOptions = GlobalOptions & {
 };
 
 export default async function post(
-  url: string,
+  path: string,
   { config, platforms, dryRun }: PostOptions
 ) {
   const promises = [];
 
-  const postData: Post = await postDataFromMarkdown(url);
+  const postData: Post = await postDataFromMarkdown(path);
 
   if (platforms.includes(Platforms.DEVTO)) {
     const devto = new DevToClient(config.devto, postData);

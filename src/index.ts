@@ -37,14 +37,9 @@ program
   });
 
 program
-  .command("post <url>")
+  .command("post <path>")
   .description("Cross post article")
   .action(post)
-  .option(
-    "-m, --markdown",
-    "If this option is passed, it uses url as a markdown path.",
-    true
-  )
   .option(
     "-p, --platforms [platforms...]",
     "Platforms to publish the article on.",
