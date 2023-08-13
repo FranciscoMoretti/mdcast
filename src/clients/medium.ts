@@ -58,9 +58,9 @@ class MediumClient {
     }
 
     //get post title and add it to the top of the markdown content
-    const title = this.postData.title;
+    const { title } = this.postData;
     const subtitle = this.postData.description;
-    const image = this.postData.image;
+    const { image } = this.postData;
     const markdown = `# ${title}\r\n\r\n${
       subtitle ? `${subtitle}\r\n\r\n` : ""
     }${image ? `![Post thumbnail](${image})\r\n\r\n` : ""}${
@@ -81,9 +81,7 @@ class MediumClient {
             .split(",")
             .map((tag) => this.findTagInDictionary(tag))
         : [],
-      canonicalUrl: this.postData.canonical_url
-        ? this.postData.canonical_url
-        : "",
+      canonicalUrl: this.postData.canonical_url || "",
       publishStatus: this.options.should_publish ? "public" : "draft",
       notifyFollowers: this.options.should_notify_followers,
     });

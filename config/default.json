@@ -2,29 +2,20 @@
   "config": {
     "devto": {
       "options": {
-        "should_publish": false,
-        "properties": {
-          "title": "Title for Dev.to"
-        }
+        "should_publish": false
       }
     },
     "hashnode": {
       "options": {
         "should_publish": true,
         "should_hide": true,
-        "should_notify_followers": false,
-        "properties": {
-          "title": "Title for Hashnode"
-        }
+        "should_notify_followers": false
       }
     },
     "medium": {
       "options": {
         "should_publish": false,
-        "should_notify_followers": false,
-        "properties": {
-          "title": "Title for Medium"
-        }
+        "should_notify_followers": false
       }
     }
   }
