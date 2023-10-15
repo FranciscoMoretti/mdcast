@@ -2,19 +2,19 @@
   "config": {
     "devto": {
       "options": {
-        "should_publish": false
+        "should_publish": true
       }
     },
     "hashnode": {
       "options": {
         "should_publish": true,
-        "should_hide": true,
+        "should_hide": false,
         "should_notify_followers": false
       }
     },
     "medium": {
       "options": {
-        "should_publish": false,
+        "should_publish": true,
         "should_notify_followers": false
       }
     }
