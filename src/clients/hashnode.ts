@@ -27,7 +27,7 @@ class HashnodeClient {
     this.connection_settings = config.connection_settings;
     this.options = config.options || {};
     this.postData = postData;
-    this.client = new GraphQLClient("https://api.hashnode.com", {
+    this.client = new GraphQLClient("https://gql.hashnode.com", {
       headers: {
         authorization: this.connection_settings.token,
       },
@@ -103,7 +103,9 @@ class HashnodeClient {
       hashNodeTags = foundTags;
     }
 
-    const createStoryInput = {
+    console.log({ hashNodeTags });
+
+    const publishPostInput = {
       title: this.postData.title,
       contentMarkdown: this.postData.markdown,
       // Use description as subtitle if they are 150 chars
@@ -111,41 +113,31 @@ class HashnodeClient {
         subtitle: this.postData.description,
       }),
       ...(this.postData.canonical_url && {
-        isRepublished: {
-          originalArticleURL: this.postData.canonical_url,
+        originalArticleURL: this.postData.canonical_url,
+      }),
+      // TODO: Modify image
+      ...(this.postData.image && {
+        coverImageOptions: {
+          coverImageURL: this.postData.image,
         },
       }),
-      ...(this.postData.image && {
-        coverImageURL: this.postData.image,
-      }),
       tags: hashNodeTags,
-      isPartOfPublication: {
-        publicationId: this.connection_settings.publication_id,
-      },
+      publicationId: this.connection_settings.publication_id,
     };
 
     //post to personal
     const mutation = gql`
-      mutation createPublicationStory(
-        $input: CreateStoryInput!
-        $publicationId: String!
-        $hideFromHashnodeFeed: Boolean!
-      ) {
-        createPublicationStory(
-          input: $input
-          publicationId: $publicationId
-          hideFromHashnodeFeed: $hideFromHashnodeFeed
-        ) {
-          success
-          message
+      mutation PublishPost($input: PublishPostInput!) {
+        publishPost(input: $input) {
+          post {
+            slug
+          }
         }
       }
     `;
 
     const data = {
-      input: createStoryInput,
-      publicationId: this.connection_settings.publication_id,
-      hideFromHashnodeFeed: this.options.should_hide,
+      input: publishPostInput,
     };
 
     if (dryRun) {
@@ -153,14 +145,17 @@ class HashnodeClient {
       return;
     }
 
-    await this.client.request(mutation, data);
+    const post = await this.client
+      .request(mutation, data)
+      .catch((err) => console.error(err));
 
+    console.log(post);
     console.log("Article pushed to Hashnode");
   }
 
   async getPublicationPosts(
     username: string
-  ): Promise<{ _id: string; cuid: string; title: string; slug: string }[]> {
+  ): Promise<{ id: string; cuid: string; title: string; slug: string }[]> {
     //retrieve all posts from user
     const data = {
       username: username,
@@ -171,7 +166,7 @@ class HashnodeClient {
         user(username: $username) {
           publication {
             posts(page: 0) {
-              _id
+              id
               cuid
               title
               slug
