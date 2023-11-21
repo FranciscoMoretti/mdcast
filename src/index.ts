@@ -19,7 +19,7 @@ import { Platforms } from "./types/global-options";
 
 program
   .usage("[command] [options]")
-  .version("0.1.4", "-v, --version")
+  .version("0.1.5", "-v, --version")
   .option(
     "-c, --config <path>",
     "Path to a JSON config file. By default, config files are loaded from config/default.json"

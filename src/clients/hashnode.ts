@@ -103,8 +103,6 @@ class HashnodeClient {
       hashNodeTags = foundTags;
     }
 
-    console.log({ hashNodeTags });
-
     const publishPostInput = {
       title: this.postData.title,
       contentMarkdown: this.postData.markdown,
