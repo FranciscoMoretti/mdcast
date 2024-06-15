@@ -147,7 +147,7 @@ class HashnodeClient {
       .request(mutation, data)
       .catch((err) => console.error(err));
 
-    console.log(post);
+    // TODO: Get the address from post
     console.log("Article pushed to Hashnode");
   }
 

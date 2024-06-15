@@ -72,19 +72,21 @@ class MediumClient {
       return;
     }
 
-    await this.client.post(requestPath, {
-      title,
-      contentFormat: "markdown",
-      content: markdown,
-      tags: this.postData.tags
-        ? this.postData.tags
-            .split(",")
-            .map((tag) => this.findTagInDictionary(tag))
-        : [],
-      canonicalUrl: this.postData.canonical_url || "",
-      publishStatus: this.options.should_publish ? "public" : "draft",
-      notifyFollowers: this.options.should_notify_followers,
-    });
+    await this.client
+      .post(requestPath, {
+        title,
+        contentFormat: "markdown",
+        content: markdown,
+        tags: this.postData.tags
+          ? this.postData.tags
+              .split(",")
+              .map((tag) => this.findTagInDictionary(tag))
+          : [],
+        canonicalUrl: this.postData.canonical_url || "",
+        publishStatus: this.options.should_publish ? "public" : "draft",
+        notifyFollowers: this.options.should_notify_followers,
+      })
+      .catch((error) => console.error(error));
 
     console.log("Article pushed to Medium");
   }
