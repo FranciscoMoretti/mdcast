@@ -1,5 +1,11 @@
 # mdcast
 
+## 0.0.6
+
+### Patch Changes
+
+- [`3e4c82f7e8b8d748b3987e9a15bcae0fb326fce2`](https://github.com/FranciscoMoretti/mdcast/commit/3e4c82f7e8b8d748b3987e9a15bcae0fb326fce2) Thanks [@FranciscoMoretti](https://github.com/FranciscoMoretti)! - env vars opt
+
 ## 0.0.5
 
 ### Patch Changes

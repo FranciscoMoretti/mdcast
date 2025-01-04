@@ -1,6 +1,6 @@
 {
   "name": "mdcast",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A CLI to cross post Markdown articles across Medium, Dev.to and Hashnode",
   "private": false,
   "scripts": {
