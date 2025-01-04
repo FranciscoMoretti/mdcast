@@ -1,0 +1,5 @@
+---
+"mdcast": patch
+---
+
+cjs build
