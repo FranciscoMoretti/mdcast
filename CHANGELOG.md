@@ -1,5 +1,11 @@
 # mdcast
 
+## 0.0.5
+
+### Patch Changes
+
+- [`fe33b95eff1af133ccf804191c4c4e86570602da`](https://github.com/FranciscoMoretti/mdcast/commit/fe33b95eff1af133ccf804191c4c4e86570602da) Thanks [@FranciscoMoretti](https://github.com/FranciscoMoretti)! - pnpm
+
 ## 0.0.4
 
 ### Patch Changes
