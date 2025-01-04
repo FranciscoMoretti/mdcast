@@ -20,7 +20,6 @@ export default async function post(
   path: string,
   { platforms, dryRun }: PostOptions
 ) {
-  // Let's get the config directly in post command
   const config = await getConfig(process.cwd());
   if (!config) {
     handleError(
