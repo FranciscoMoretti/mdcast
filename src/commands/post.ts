@@ -9,6 +9,7 @@ import { validatePath } from "../utils/validate-path";
 import { DEFAULT_CONFIG_FILENAME, getConfig } from "../utils/get-config";
 import chalk from "chalk";
 import { handleError } from "../utils/handle-error";
+import { env } from "../env";
 
 type PostOptions = {
   platforms: Platforms[];
@@ -29,8 +30,6 @@ export default async function post(
     );
   }
 
-  // TODO: IF location is provided instead of API key, the token needs to be read from the environment variable
-
   const promises = [];
   validatePath(path);
 
@@ -38,17 +37,47 @@ export default async function post(
   const postData: Post = await markdownToPost(markdownClient);
 
   if (platforms.includes(Platforms.DEVTO)) {
-    const devto = new DevToClient(config.devto, postData);
+    const connection_settings = {
+      api_key: env.DEVTO_API_KEY,
+      organization_id: env.DEVTO_ORG_ID,
+    };
+    const devto = new DevToClient(
+      {
+        options: config.devto,
+        connection_settings,
+      },
+      postData
+    );
     promises.push(devto.post(dryRun));
   }
 
   if (platforms.includes(Platforms.HASHNODE)) {
-    const hashnode = new HashnodeClient(config.hashnode, postData);
+    const connection_settings = {
+      token: env.HASHNODE_TOKEN,
+      publication_id: env.HASHNODE_PUBLICATION_ID,
+    };
+    const hashnode = new HashnodeClient(
+      {
+        options: config.hashnode,
+        connection_settings,
+      },
+      postData
+    );
     promises.push(hashnode.post(dryRun));
   }
 
   if (platforms.includes(Platforms.MEDIUM)) {
-    const medium = new MediumClient(config.medium, postData);
+    const connection_settings = {
+      token: env.MEDIUM_TOKEN,
+      publication_name: env.MEDIUM_PUBLICATION_NAME,
+    };
+    const medium = new MediumClient(
+      {
+        options: config.medium,
+        connection_settings: connection_settings,
+      },
+      postData
+    );
     promises.push(medium.post(dryRun));
   }
 

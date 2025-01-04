@@ -71,9 +71,9 @@ const MarkdownConfigSchema = z.object({
 });
 
 export const ConfigSchema = z.object({
-  devto: DevToConfigSchema,
-  hashnode: HashnodeConfigSchema,
-  medium: MediumConfigSchema,
+  devto: DevToOptionsSchema,
+  hashnode: HashnodeOptionsSchema,
+  medium: MediumOptionsSchema,
   markdown: MarkdownConfigSchema,
 });
 

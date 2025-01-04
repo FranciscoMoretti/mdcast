@@ -9,8 +9,11 @@ export const env = createEnv({
   clientPrefix: "PUBLIC_",
   server: {
     DEVTO_API_KEY: z.string(),
+    DEVTO_ORG_ID: z.string().optional(),
     HASHNODE_TOKEN: z.string(),
-    DEVTO_ORG_ID: z.string(),
+    HASHNODE_PUBLICATION_ID: z.string().optional(),
+    MEDIUM_TOKEN: z.string(),
+    MEDIUM_PUBLICATION_NAME: z.string().optional(),
   },
   client: {},
   /**
