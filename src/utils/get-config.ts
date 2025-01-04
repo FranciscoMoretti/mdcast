@@ -2,14 +2,14 @@ import { cosmiconfig } from "cosmiconfig";
 import { ConfigSchema } from "../config/schema";
 import type { z } from "zod";
 
-export const DEFAULT_CONFIG_FILENAME = "crosspost.json";
+export const DEFAULT_CONFIG_FILENAME = "mdcast.json";
 
-const explorer = cosmiconfig("crosspost", {
+const explorer = cosmiconfig("mdcast", {
   searchPlaces: [
-    "crosspost.json",
-    "crosspost.config.js",
-    "crosspost.config.cjs",
-    "crosspost.config.ts",
+    "mdcast.json",
+    "mdcast.config.js",
+    "mdcast.config.cjs",
+    "mdcast.config.ts",
   ],
 });
 

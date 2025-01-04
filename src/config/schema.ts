@@ -79,5 +79,5 @@ export const ConfigSchema = z.object({
 
 export type MarkdownConfig = z.infer<typeof MarkdownConfigSchema>;
 
-export type CrosspostConfig = z.infer<typeof ConfigSchema>;
-export type CrosspostConfigInput = z.input<typeof ConfigSchema>;
+export type MdCastConfig = z.infer<typeof ConfigSchema>;
+export type MdCastConfigInput = z.input<typeof ConfigSchema>;

@@ -1,6 +1,6 @@
-import { type CrosspostConfigInput } from "./src/config/schema";
+import { type MdCastConfigInput } from "./src/config/schema";
 
-const config: CrosspostConfigInput = {
+const config: MdCastConfigInput = {
   markdown: {
     frontmatterProperties: {
       title: "title",
