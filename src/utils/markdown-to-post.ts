@@ -1,4 +1,3 @@
-import Config from "../types/config";
 import { Post } from "../types/post";
 import MarkdownClient from "../clients/markdown";
 
@@ -12,9 +11,9 @@ export async function markdownToPost(markdownClient: MarkdownClient) {
   const image = await markdownClient.getImage();
   const slug = await markdownClient.getSlug();
 
-  const canonical_url = `https://www.franciscomoretti.com/blog/${slug}`;
+  const canonical_url = `${markdownClient.config.canonical_url_base}/${slug}`;
   const image_url = image
-    ? `https://www.franciscomoretti.com${image}`
+    ? `${markdownClient.config.image_url_base}${image}`
     : undefined;
 
   const postData: Post = {

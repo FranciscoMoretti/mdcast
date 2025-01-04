@@ -2,25 +2,39 @@ import DevToClient from "../clients/devto";
 import HashnodeClient from "../clients/hashnode";
 import { markdownToPost } from "../utils/markdown-to-post";
 import MediumClient from "../clients/medium";
-import Config from "../types/config";
-import GlobalOptions, { Platforms } from "../types/global-options";
+import { Platforms } from "../types/global-options";
 import { Post } from "../types/post";
 import MarkdownClient from "../clients/markdown";
 import { validatePath } from "../utils/validate-path";
+import { DEFAULT_CONFIG_FILENAME, getConfig } from "../utils/get-config";
+import chalk from "chalk";
+import { handleError } from "../utils/handle-error";
 
-type PostOptions = GlobalOptions & {
+type PostOptions = {
   platforms: Platforms[];
   dryRun: boolean;
 };
 
 export default async function post(
   path: string,
-  { config, platforms, dryRun }: PostOptions
+  { platforms, dryRun }: PostOptions
 ) {
+  // Let's get the config directly in post command
+  const config = await getConfig(process.cwd());
+  if (!config) {
+    handleError(
+      `Configuration is missing. Please run ${chalk.green(
+        `init`
+      )} to create a ${DEFAULT_CONFIG_FILENAME} file.`
+    );
+  }
+
+  // TODO: IF location is provided instead of API key, the token needs to be read from the environment variable
+
   const promises = [];
   validatePath(path);
 
-  const markdownClient = new MarkdownClient(path);
+  const markdownClient = new MarkdownClient(path, config.markdown);
   const postData: Post = await markdownToPost(markdownClient);
 
   if (platforms.includes(Platforms.DEVTO)) {

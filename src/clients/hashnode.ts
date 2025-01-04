@@ -1,29 +1,23 @@
 import { GraphQLClient, gql } from "graphql-request";
-import {
-  HashnodeConnectionSettings,
-  HashnodeOptions,
-  HashnodeProperties,
-} from "../types/clients/hashnode";
-import { ConfigHashnode } from "../types/config";
+
 import { Post } from "../types/post";
-import fs from "fs";
 import { normalizeTag } from "../utils/normalize-tag";
+import { HashnodeConfigSchema } from "../config/schema";
 
 type HashnodeTag = {
-  _id: string;
+  id: string;
   slug: string;
   name: string;
 };
 
-const TAGS_DICTIONARY_FILENAME = "hashnode-tags-dictionary.json";
 class HashnodeClient {
-  connection_settings: HashnodeConnectionSettings;
-  options: HashnodeOptions;
+  connection_settings: HashnodeConfigSchema["connection_settings"];
+  options: HashnodeConfigSchema["options"];
   client: GraphQLClient;
   postData: Post;
   tagsDictionary: HashnodeTag[];
 
-  constructor(config: ConfigHashnode, postData: Post) {
+  constructor(config: HashnodeConfigSchema, postData: Post) {
     this.connection_settings = config.connection_settings;
     this.options = config.options || {};
     this.postData = postData;
@@ -32,52 +26,39 @@ class HashnodeClient {
         authorization: this.connection_settings.token,
       },
     });
-    this.tagsDictionary = this.loadFromFile();
+    this.tagsDictionary = config.options.tagsDictionary;
   }
 
-  async createDictionary(username: string) {
-    // TODO move username to ENV variable
-    const userPosts = await this.getPublicationPosts("franciscomoretti");
+  // async createDictionary(username: string) {
+  //   // TODO move username to ENV variable
+  //   const userPosts = await this.getPublicationPosts("franciscomoretti");
 
-    const tagsArticlesPosts = userPosts.filter((post) =>
-      post.slug.startsWith("tags-article")
-    );
-    const tagsPromises = tagsArticlesPosts.map((post) =>
-      this.getTagsFromPost(`${post.slug}-${post.cuid}`)
-    );
-    const postsTags = await Promise.all(tagsPromises);
-    const tags = postsTags.flatMap((tag) => tag);
-    this.saveToFile(tags);
-    console.log("Tags Dictionary written correctly");
-  }
+  //   const tagsArticlesPosts = userPosts.filter((post) =>
+  //     post.slug.startsWith("tags-article")
+  //   );
+  //   const tagsPromises = tagsArticlesPosts.map((post) =>
+  //     this.getTagsFromPost(`${post.slug}-${post.cuid}`)
+  //   );
+  //   const postsTags = await Promise.all(tagsPromises);
+  //   const tags = postsTags.flatMap((tag) => tag);
+  //   this.saveToFile(tags);
+  //   console.log("Tags Dictionary written correctly");
+  // }
 
-  private saveToFile(tags: HashnodeTag[]) {
-    const jsonData = JSON.stringify(tags);
+  // private saveToFile(tags: HashnodeTag[]) {
+  //   const jsonData = JSON.stringify(tags);
 
-    fs.writeFile(TAGS_DICTIONARY_FILENAME, jsonData, (error) => {
-      // throwing the error
-      // in case of a writing problem
-      if (error) {
-        // logging the error
-        console.error(error);
+  //   fs.writeFile(TAGS_DICTIONARY_FILENAME, jsonData, (error) => {
+  //     // throwing the error
+  //     // in case of a writing problem
+  //     if (error) {
+  //       // logging the error
+  //       console.error(error);
 
-        throw error;
-      }
-    });
-  }
-
-  private loadFromFile() {
-    let dictionary = [];
-    try {
-      const data = fs.readFileSync(TAGS_DICTIONARY_FILENAME, "utf8");
-      dictionary = JSON.parse(data);
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-
-    return dictionary;
-  }
+  //       throw error;
+  //     }
+  //   });
+  // }
 
   private findTagInDictionary(queryTag: string): HashnodeTag {
     // Very simple matching algorithm
@@ -96,9 +77,7 @@ class HashnodeClient {
     let hashNodeTags: HashnodeTag[] = [];
     const inputTags = this.postData.tags;
     if (inputTags) {
-      const foundTags = inputTags
-        .split(",")
-        .map((tag) => this.findTagInDictionary(tag));
+      const foundTags = inputTags.map((tag) => this.findTagInDictionary(tag));
 
       hashNodeTags = foundTags;
     }

@@ -7,6 +7,7 @@ import remarkParseFrontmatter from "remark-parse-frontmatter";
 import remarkGfm from "remark-gfm";
 import { visit } from "unist-util-visit";
 import { Literal, Nodes, Root, RootContent } from "mdast";
+import { MarkdownConfig } from "../config/schema";
 
 interface TOML extends Literal {
   type: "toml";
@@ -39,10 +40,11 @@ function removeFileExtension(filePath: string): string {
 class MarkdownClient {
   filePath: string;
   file: any;
+  config: MarkdownConfig;
 
-  constructor(filePath: string) {
+  constructor(filePath: string, config: MarkdownConfig) {
     this.filePath = filePath;
-
+    this.config = config;
     this.file = "";
   }
 
@@ -70,7 +72,7 @@ class MarkdownClient {
           },
         {
           search: /^\/([^\s]+)/gm,
-          replace: "https://www.franciscomoretti.com/$1",
+          replace: this.config.relativeUrlBasePath + "/$1",
         }
       )
       .use(
@@ -82,8 +84,7 @@ class MarkdownClient {
               url = normalizeObsidianAbsolutePath(url);
               if (url.startsWith("/")) {
                 url = removeFileExtension(url);
-                // TODO provide internal links base URL as an config option
-                url = "https://www.franciscomoretti.com" + url;
+                url = this.config.relativeUrlBasePath + url;
               }
               node.url = url;
             }
@@ -106,27 +107,44 @@ class MarkdownClient {
   }
 
   async getTitle(): Promise<string> {
-    return this.file.data.frontmatter.title;
+    return this.file.data.frontmatter[this.config.frontmatterProperties.title];
   }
 
   async getDescription(): Promise<string> {
-    return this.file.data.frontmatter.description;
+    return this.file.data.frontmatter[
+      this.config.frontmatterProperties.description
+    ];
   }
 
-  async getTags(): Promise<string> {
-    return this.file.data.frontmatter.tag;
+  async getTags(): Promise<string[]> {
+    return this.file.data.frontmatter[this.config.frontmatterProperties.tags];
   }
 
   async getImage(): Promise<string> {
-    return this.file.data.frontmatter.image;
+    const image =
+      this.file.data.frontmatter[this.config.frontmatterProperties.image];
+    if (typeof image === "string") {
+      return this.config.image_url_base + image;
+    }
+    if (Array.isArray(image)) {
+      return image.map((img) => this.config.image_url_base + img)[0];
+    }
+    return image;
   }
 
   async getDate(): Promise<string> {
-    return this.file.data.frontmatter.date;
+    return this.file.data.frontmatter[this.config.frontmatterProperties.date];
   }
 
   async getSlug(): Promise<string> {
-    return this.file.data.frontmatter.slug;
+    return (
+      this.file.data.frontmatter[this.config.frontmatterProperties.slug] ||
+      this.getSlugFromFilePath(this.filePath)
+    );
+  }
+
+  private getSlugFromFilePath(filePath: string): string {
+    return filePath.split("/").pop()?.replace(".md", "") || "";
   }
 }
 

@@ -1,9 +1,3 @@
-import { ConfigDevTo } from "../types/config";
-import {
-  DevToConnectionSettings,
-  DevToOptions,
-  DevToProperties,
-} from "../types/clients/devto";
 import axios, { AxiosInstance } from "axios";
 import { Post } from "../types/post";
 import { normalizeTag } from "../utils/normalize-tag";
@@ -12,6 +6,7 @@ import remarkParse from "remark-parse";
 import remarkStringify from "remark-stringify";
 import remarkGfm from "remark-gfm";
 import { visit } from "unist-util-visit";
+import { DevToConfigSchema } from "../config/schema";
 
 type ArticleData = {
   body_markdown: string;
@@ -26,12 +21,12 @@ type ArticleData = {
 };
 
 class DevToClient {
-  connection_settings: DevToConnectionSettings;
-  options: DevToOptions;
+  connection_settings: DevToConfigSchema["connection_settings"];
+  options: DevToConfigSchema["options"];
   postData: Post;
   client: AxiosInstance;
 
-  constructor(config: ConfigDevTo, postData: Post) {
+  constructor(config: DevToConfigSchema, postData: Post) {
     this.connection_settings = config.connection_settings;
     this.options = config.options || {};
     this.postData = postData;
@@ -66,7 +61,7 @@ class DevToClient {
 
   async post(dryRun?: boolean) {
     const normalizedTags = this.postData.tags
-      ? this.postData.tags.split(",").map((tag) => normalizeTag(tag))
+      ? this.postData.tags.map((tag) => normalizeTag(tag))
       : [];
 
     const sanitizedMarkdown = await this.sanitizeMarkdown(

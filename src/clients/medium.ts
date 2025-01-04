@@ -1,24 +1,16 @@
 import axios, { AxiosInstance } from "axios";
-import {
-  MediumConnectionSettings,
-  MediumOptions,
-  MediumProperties,
-} from "../types/clients/medium";
-import { ConfigMedium } from "../types/config";
 import { Post } from "../types/post";
-import fs from "fs";
 import { normalizeTag } from "../utils/normalize-tag";
-
-const TAGS_DICTIONARY_FILENAME = "medium-tags-dictionary.json";
+import { MediumConfigSchema } from "../config/schema";
 
 class MediumClient {
-  connection_settings: MediumConnectionSettings;
-  options: MediumOptions;
+  connection_settings: MediumConfigSchema["connection_settings"];
+  options: MediumConfigSchema["options"];
   client: AxiosInstance;
   postData: Post;
   tagsDictionary: string[];
 
-  constructor(config: ConfigMedium, postData: Post) {
+  constructor(config: MediumConfigSchema, postData: Post) {
     this.connection_settings = config.connection_settings;
     this.options = config.options || {};
     this.postData = postData;
@@ -29,7 +21,7 @@ class MediumClient {
         Authorization: `Bearer ${this.connection_settings.token}`,
       },
     });
-    this.tagsDictionary = this.loadFromFile();
+    this.tagsDictionary = config.options.tagsDictionary;
   }
 
   async post(dryRun?: boolean) {
@@ -78,9 +70,7 @@ class MediumClient {
         contentFormat: "markdown",
         content: markdown,
         tags: this.postData.tags
-          ? this.postData.tags
-              .split(",")
-              .map((tag) => this.findTagInDictionary(tag))
+          ? this.postData.tags.map((tag) => this.findTagInDictionary(tag))
           : [],
         canonicalUrl: this.postData.canonical_url || "",
         publishStatus: this.options.should_publish ? "public" : "draft",
@@ -101,19 +91,6 @@ class MediumClient {
       return tag;
     }
     throw Error(`Tag ${queryTag} not found in dictionary`);
-  }
-
-  private loadFromFile() {
-    let dictionary = [];
-    try {
-      const data = fs.readFileSync(TAGS_DICTIONARY_FILENAME, "utf8");
-      dictionary = JSON.parse(data);
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-
-    return dictionary;
   }
 }
 

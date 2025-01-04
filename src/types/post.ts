@@ -3,6 +3,6 @@ export type Post = {
   markdown: string;
   description?: string;
   canonical_url?: string;
-  tags?: string;
+  tags?: string[];
   image?: string;
 };
