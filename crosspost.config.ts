@@ -22,7 +22,6 @@ const config: CrosspostConfigInput = {
     },
     options: {
       should_publish: true,
-      properties: {},
     },
   },
   hashnode: {
@@ -33,7 +32,6 @@ const config: CrosspostConfigInput = {
 
     options: {
       should_hide: false,
-      properties: {},
       // Get tags for hashnode by:
       // 1. Search the tag slug. E.g. Shadcn UI -> shadcn-ui
       // 2. Run the query to get the ID https://gql.hashnode.com/?source=legacy-api-page
@@ -116,7 +114,6 @@ const config: CrosspostConfigInput = {
     options: {
       should_publish: true,
       should_notify_followers: false,
-      properties: {},
       // Search in https://medium.com/ the tag e.g. "Shadcn UI"
       // When found, get it from the URL
       // E.g. https://medium.com/tag/shadcn-ui -> shadcn-ui

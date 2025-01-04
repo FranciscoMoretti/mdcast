@@ -21,7 +21,6 @@ const HashnodeOptionsSchema = z.object({
 const MediumOptionsSchema = z.object({
   should_publish: z.boolean().default(true),
   should_notify_followers: z.boolean().default(false),
-  properties: z.record(z.string(), z.string()).optional(),
   tagsDictionary: z.array(z.string()).optional().default([]),
 });
 
