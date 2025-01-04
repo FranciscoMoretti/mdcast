@@ -1,7 +1,7 @@
 {
   "name": "mdcast",
   "version": "0.0.4",
-  "description": "",
+  "description": "A CLI to cross post Markdown articles across Medium, Dev.to and Hashnode",
   "private": false,
   "scripts": {
     "dev": "tsup --watch",
@@ -91,5 +91,6 @@
     "tsx": "^3.12.7",
     "typescript": "^4.9.5"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "pnpm@9.0.6"
 }
