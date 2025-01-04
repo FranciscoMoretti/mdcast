@@ -11,6 +11,8 @@ async function main() {
     .usage("[command] [options]")
     .version(packageInfo.version || "1.0.0", "-v, --version");
 
+  // TODO: Create a INIT command
+
   program
     .command("post <path>")
     .description("Cross post article")
