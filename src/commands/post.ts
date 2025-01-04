@@ -16,6 +16,32 @@ type PostOptions = {
   dryRun: boolean;
 };
 
+function validateEnvVars(platform: Platforms) {
+  switch (platform) {
+    case Platforms.DEVTO:
+      if (!env.DEVTO_API_KEY) {
+        handleError(
+          "DEVTO_API_KEY env variable is required for Dev.to platform"
+        );
+      }
+      break;
+    case Platforms.HASHNODE:
+      if (!env.HASHNODE_TOKEN) {
+        handleError(
+          "HASHNODE_TOKEN env variable is required for Hashnode platform"
+        );
+      }
+      break;
+    case Platforms.MEDIUM:
+      if (!env.MEDIUM_TOKEN) {
+        handleError(
+          "MEDIUM_TOKEN env variable is required for Medium platform"
+        );
+      }
+      break;
+  }
+}
+
 export default async function post(
   path: string,
   { platforms, dryRun }: PostOptions
@@ -34,9 +60,12 @@ export default async function post(
   const markdownClient = new MarkdownClient(path, config.markdown);
   const postData: Post = await markdownToPost(markdownClient);
 
+  // Validate env vars for each requested platform
+  platforms.forEach(validateEnvVars);
+
   if (platforms.includes(Platforms.DEVTO)) {
     const connection_settings = {
-      api_key: env.DEVTO_API_KEY,
+      api_key: env.DEVTO_API_KEY!,
       organization_id: env.DEVTO_ORG_ID,
     };
     const devto = new DevToClient(
@@ -51,7 +80,7 @@ export default async function post(
 
   if (platforms.includes(Platforms.HASHNODE)) {
     const connection_settings = {
-      token: env.HASHNODE_TOKEN,
+      token: env.HASHNODE_TOKEN!,
       publication_id: env.HASHNODE_PUBLICATION_ID,
     };
     const hashnode = new HashnodeClient(
@@ -66,7 +95,7 @@ export default async function post(
 
   if (platforms.includes(Platforms.MEDIUM)) {
     const connection_settings = {
-      token: env.MEDIUM_TOKEN,
+      token: env.MEDIUM_TOKEN!,
       publication_name: env.MEDIUM_PUBLICATION_NAME,
     };
     const medium = new MediumClient(
