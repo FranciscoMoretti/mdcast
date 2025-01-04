@@ -28,7 +28,6 @@ export default async function post(
       )} to create a ${DEFAULT_CONFIG_FILENAME} file.`
     );
   }
-
   const promises = [];
   validatePath(path);
 
