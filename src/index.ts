@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import "dotenv/config";
 import post from "./commands/post";
 import { program } from "commander";
