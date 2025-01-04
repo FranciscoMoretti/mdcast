@@ -14,7 +14,8 @@
     "release": "changeset version",
     "pub:beta": "pnpm build && pnpm publish --no-git-checks --access public --tag beta",
     "pub:next": "pnpm build && pnpm publish --no-git-checks --access public --tag next",
-    "pub:release": "pnpm build && pnpm publish --access public"
+    "pub:release": "pnpm build && pnpm publish --access public",
+    "prepare": "pnpm build"
   },
   "author": {
     "name": "franciscomoretti",
