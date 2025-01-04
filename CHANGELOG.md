@@ -1,5 +1,11 @@
 # mdcast
 
+## 0.0.4
+
+### Patch Changes
+
+- [`e3405535c2605118a848cbd8dec3c8b405a7059f`](https://github.com/FranciscoMoretti/mdcast/commit/e3405535c2605118a848cbd8dec3c8b405a7059f) Thanks [@FranciscoMoretti](https://github.com/FranciscoMoretti)! - cjs build
+
 ## 0.0.3
 
 ### Patch Changes
