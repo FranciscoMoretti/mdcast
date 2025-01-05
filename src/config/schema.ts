@@ -6,7 +6,7 @@ const DevToOptionsSchema = z.object({
 
 const HashnodeOptionsSchema = z.object({
   should_hide: z.boolean().default(false),
-  tagsDictionary: z
+  tags_dictionary: z
     .array(
       z.object({
         id: z.string(),
@@ -21,7 +21,7 @@ const HashnodeOptionsSchema = z.object({
 const MediumOptionsSchema = z.object({
   should_publish: z.boolean().default(true),
   should_notify_followers: z.boolean().default(false),
-  tagsDictionary: z.array(z.string()).optional().default([]),
+  tags_dictionary: z.array(z.string()).optional().default([]),
 });
 
 const DevToConfigSchema = z.object({

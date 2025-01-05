@@ -28,7 +28,7 @@ const config: MdCastConfigInput = {
     //     id
     //   }
     // }
-    tagsDictionary: [
+    tags_dictionary: [
       {
         id: "56744721958ef13879b94cad",
         name: "JavaScript",
@@ -99,7 +99,7 @@ const config: MdCastConfigInput = {
     // Search in https://medium.com/ the tag e.g. "Shadcn UI"
     // When found, get it from the URL
     // E.g. https://medium.com/tag/shadcn-ui -> shadcn-ui
-    tagsDictionary: [
+    tags_dictionary: [
       "analytics",
       "api",
       "best-practices",
