@@ -2,6 +2,90 @@
 
 A CLI tool to cross post Markdown articles into Medium, Dev.to and Hashnode.
 
+## Installation
+
+```bash
+npm install mdcast
+```
+
+## Usage
+
+### 1. Initialize Configuration
+
+First, initialize your project configuration:
+
+```bash
+mdcast init
+```
+
+This will create a `mdcast.config.json` file in your current directory with default settings.
+
+### 2. Set Environment Variables
+
+Create a `.env` file with your API keys (see Configuration Instructions below for details):
+
+```env
+# Required for Dev.to
+DEVTO_API_KEY=your_api_key
+DEVTO_ORG_ID=optional_org_id
+
+# Required for Hashnode
+HASHNODE_TOKEN=your_token
+HASHNODE_PUBLICATION_ID=optional_pub_id
+
+# Required for Medium
+MEDIUM_TOKEN=your_token
+MEDIUM_PUBLICATION_NAME=optional_pub_name
+```
+
+### 3. Post Your Content
+
+To post your markdown content:
+
+```bash
+mdcast post path/to/your/article.md --platforms devto,medium,hashnode
+```
+
+Options:
+
+- `--platforms`: Comma-separated list of platforms to post to (`devto`, `medium`, `hashnode`)
+- `--dry-run`: Test the posting process without actually publishing
+
+## Configuration
+
+You can customize your posting preferences in `mdcast.config.json`:
+
+```json
+{
+  "devto": {
+    "should_publish": true
+  },
+  "hashnode": {
+    "should_hide": false,
+    "tags_dictionary": {}
+  },
+  "medium": {
+    "should_publish": true,
+    "should_notify_followers": false,
+    "tags_dictionary": {}
+  },
+  "markdown": {
+    "frontmatterProperties": {
+      "title": "title",
+      "description": "description",
+      "canonical_url": "canonical_url",
+      "tags": "tags",
+      "image": "image",
+      "date": "date",
+      "slug": "slug"
+    },
+    "link_url_base": "",
+    "canonical_url_base": "",
+    "image_url_base": ""
+  }
+}
+```
+
 ## References
 
 - [Medium API](https://github.com/Medium/medium-api-docs)
@@ -34,3 +118,49 @@ This README provides instructions for configuring API keys and IDs required for 
 - **MEDIUM_PUBLICATION_NAME (Optional):** Specify the exact name of the Medium publication where you want to publish the article. Make sure it matches the publication name on Medium.
 
 Please ensure you have the required credentials and follow the respective links provided to retrieve them.
+
+## Tags Configuration
+
+Each platform requires specific tag formats. You can configure tag mappings in your `mdcast.config.json` under the `tags_dictionary` field for each platform:
+
+### Hashnode Tags
+
+To get tag IDs for Hashnode:
+
+1. Find the tag slug (e.g., "Shadcn UI" -> "shadcn-ui")
+2. Query the Hashnode GraphQL API at https://gql.hashnode.com:
+   ```graphql
+   query {
+     tag(slug: "shadcn-ui") {
+       id
+     }
+   }
+   ```
+3. Add to config:
+   ```json
+   "hashnode": {
+     "tags_dictionary": {
+       "Shadcn UI": {
+         "slug": "shadcn-ui",
+         "id": "648b5554f9b78f110ed2c1eb"
+       }
+     }
+   }
+   ```
+
+### Medium Tags
+
+To get tag slugs for Medium:
+
+1. Search for the tag on Medium (e.g., "Shadcn UI")
+2. Get the slug from the URL: `https://medium.com/tag/shadcn-ui` -> `shadcn-ui`
+3. Add to config:
+   ```json
+   "medium": {
+     "tags_dictionary": {
+       "Shadcn UI": {
+         "slug": "shadcn-ui"
+       }
+     }
+   }
+   ```
