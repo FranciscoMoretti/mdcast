@@ -12,9 +12,9 @@ export async function markdownToPost(markdownClient: MarkdownClient) {
   const slug = await markdownClient.getSlug();
 
   const canonical_url = `${markdownClient.config.canonical_url_base}/${slug}`;
-  const image_url = image
+  const image_url = image?.startsWith("/")
     ? `${markdownClient.config.image_url_base}${image}`
-    : undefined;
+    : image;
 
   const postData: Post = {
     title: title,

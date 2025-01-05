@@ -8,6 +8,8 @@ import remarkGfm from "remark-gfm";
 import { visit } from "unist-util-visit";
 import { Literal, Nodes, Root, RootContent } from "mdast";
 import { MarkdownConfig } from "../config/schema";
+import { off } from "process";
+import { handleError } from "../utils/handle-error";
 
 interface TOML extends Literal {
   type: "toml";
@@ -56,23 +58,20 @@ class MarkdownClient {
       .use(remarkParseFrontmatter)
       .use(
         // Replace local image paths with site url
-        (
-            options = {
-              search: /^/,
-              replace: "/uploads",
-            }
-          ) =>
-          (tree: Root) => {
-            visit(tree, (node: Nodes) => {
-              if (node.type === "image") {
-                node.url = normalizeObsidianAbsolutePath(node.url);
-                node.url = node.url.replace(options.search, options.replace);
+        () => (tree: Root) => {
+          visit(tree, (node: Nodes) => {
+            if (node.type === "image") {
+              node.url = normalizeObsidianAbsolutePath(node.url);
+              if (node.url.startsWith("/")) {
+                if (!this.config.image_url_base) {
+                  handleError(
+                    `image_url_base is not set in the config file, but needed to replace local image "${node.url}"`
+                  );
+                }
+                node.url = this.config.image_url_base + node.url;
               }
-            });
-          },
-        {
-          search: /^\/([^\s]+)/gm,
-          replace: this.config.relativeUrlBasePath + "/$1",
+            }
+          });
         }
       )
       .use(
@@ -83,8 +82,13 @@ class MarkdownClient {
               let { url } = node;
               url = normalizeObsidianAbsolutePath(url);
               if (url.startsWith("/")) {
+                if (!this.config.link_url_base) {
+                  handleError(
+                    `link_url_base is not set in the config file, but needed to replace local link "${url}"`
+                  );
+                }
                 url = removeFileExtension(url);
-                url = this.config.relativeUrlBasePath + url;
+                url = this.config.link_url_base + url;
               }
               node.url = url;
             }
@@ -120,7 +124,7 @@ class MarkdownClient {
     return this.file.data.frontmatter[this.config.frontmatterProperties.tags];
   }
 
-  async getImage(): Promise<string> {
+  async getImage(): Promise<string | undefined> {
     const image =
       this.file.data.frontmatter[this.config.frontmatterProperties.image];
     if (typeof image === "string") {

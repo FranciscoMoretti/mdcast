@@ -11,8 +11,8 @@ const config: MdCastConfigInput = {
       date: "date",
       slug: "slug",
     },
-    relativeUrlBasePath: "https://www.franciscomoretti.com",
     canonical_url_base: "https://www.franciscomoretti.com/blog",
+    link_url_base: "https://www.franciscomoretti.com",
     image_url_base: "https://www.franciscomoretti.com",
   },
   devto: {
