@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 import "dotenv/config";
 import post from "./commands/post";
-import { program } from "commander";
+import { Command, program } from "commander";
 import { Platforms } from "./types/global-options";
 import { getPackageInfo } from "./utils/get-package-info";
+import { init } from "./commands/init";
 
 async function main() {
   const packageInfo = await getPackageInfo();
@@ -12,9 +13,7 @@ async function main() {
     .usage("[command] [options]")
     .version(packageInfo.version || "1.0.0", "-v, --version");
 
-  // TODO: Create a INIT command
-
-  program
+  const postCommand = new Command()
     .command("post <path>")
     .description("Cross post article")
     .action(post)
@@ -28,6 +27,8 @@ async function main() {
       "If this option is passed, the entire process runs without actually posting the article. Useful for testing.",
       false
     );
+
+  program.addCommand(init).addCommand(postCommand);
 
   program.parse();
 }

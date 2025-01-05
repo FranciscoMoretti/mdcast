@@ -65,16 +65,16 @@ const FrontMatterPropertiesSchema = z.object({
 
 const MarkdownConfigSchema = z.object({
   frontmatterProperties: FrontMatterPropertiesSchema.optional().default({}),
-  relativeUrlBasePath: z.string(),
-  canonical_url_base: z.string(),
-  image_url_base: z.string(),
+  relativeUrlBasePath: z.string().default(""),
+  canonical_url_base: z.string().default(""),
+  image_url_base: z.string().default(""),
 });
 
 export const ConfigSchema = z.object({
-  devto: DevToOptionsSchema,
-  hashnode: HashnodeOptionsSchema,
-  medium: MediumOptionsSchema,
-  markdown: MarkdownConfigSchema,
+  devto: DevToOptionsSchema.default({}),
+  hashnode: HashnodeOptionsSchema.default({}),
+  medium: MediumOptionsSchema.default({}),
+  markdown: MarkdownConfigSchema.default({}),
 });
 
 export type MarkdownConfig = z.infer<typeof MarkdownConfigSchema>;
