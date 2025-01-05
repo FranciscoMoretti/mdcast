@@ -10,12 +10,14 @@ type HashnodeTag = {
   name: string;
 };
 
+type HashnodeTagDictionary = Record<string, { slug: string; id: string }>;
+
 class HashnodeClient {
   connection_settings: HashnodeConfigSchema["connection_settings"];
   options: HashnodeConfigSchema["options"];
   client: GraphQLClient;
   postData: Post;
-  tagsDictionary: HashnodeTag[];
+  tagsDictionary: HashnodeTagDictionary;
 
   constructor(config: HashnodeConfigSchema, postData: Post) {
     this.connection_settings = config.connection_settings;
@@ -26,7 +28,7 @@ class HashnodeClient {
         authorization: this.connection_settings.token,
       },
     });
-    this.tagsDictionary = config.options.tagsDictionary;
+    this.tagsDictionary = config.options.tags_dictionary;
   }
 
   // async createDictionary(username: string) {
@@ -63,11 +65,14 @@ class HashnodeClient {
   private findTagInDictionary(queryTag: string): HashnodeTag {
     // Very simple matching algorithm
     const normalizedQuery = normalizeTag(queryTag);
-    const tag = this.tagsDictionary.find((tag) =>
-      normalizeTag(tag.slug).includes(normalizedQuery)
+    const entries = Object.entries(this.tagsDictionary);
+    const entry = entries.find(([name]) =>
+      normalizeTag(name).includes(normalizedQuery)
     );
-    if (tag) {
-      return tag;
+
+    if (entry) {
+      const [name, { slug, id }] = entry;
+      return { name, slug, id };
     }
     throw Error(`Tag ${queryTag} not found in dictionary`);
   }

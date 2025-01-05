@@ -8,7 +8,7 @@ class MediumClient {
   options: MediumConfigSchema["options"];
   client: AxiosInstance;
   postData: Post;
-  tagsDictionary: string[];
+  tagsDictionary: Record<string, { slug: string }>;
 
   constructor(config: MediumConfigSchema, postData: Post) {
     this.connection_settings = config.connection_settings;
@@ -21,7 +21,7 @@ class MediumClient {
         Authorization: `Bearer ${this.connection_settings.token}`,
       },
     });
-    this.tagsDictionary = config.options.tagsDictionary;
+    this.tagsDictionary = config.options.tags_dictionary;
   }
 
   async post(dryRun?: boolean) {
@@ -84,11 +84,14 @@ class MediumClient {
   private findTagInDictionary(queryTag: string): string {
     // Very simple matching algorithm
     const normalizedQuery = normalizeTag(queryTag);
-    const tag = this.tagsDictionary.find((tag) =>
-      normalizeTag(tag).includes(normalizedQuery)
+    const entries = Object.entries(this.tagsDictionary);
+    const entry = entries.find(([name]) =>
+      normalizeTag(name).includes(normalizedQuery)
     );
-    if (tag) {
-      return tag;
+
+    if (entry) {
+      const [_, { slug }] = entry;
+      return slug;
     }
     throw Error(`Tag ${queryTag} not found in dictionary`);
   }

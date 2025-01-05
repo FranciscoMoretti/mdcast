@@ -7,21 +7,27 @@ const DevToOptionsSchema = z.object({
 const HashnodeOptionsSchema = z.object({
   should_hide: z.boolean().default(false),
   tags_dictionary: z
-    .array(
+    .record(
       z.object({
-        id: z.string(),
-        name: z.string(),
         slug: z.string(),
+        id: z.string(),
       })
     )
     .optional()
-    .default([]),
+    .default({}),
 });
 
 const MediumOptionsSchema = z.object({
   should_publish: z.boolean().default(true),
   should_notify_followers: z.boolean().default(false),
-  tags_dictionary: z.array(z.string()).optional().default([]),
+  tags_dictionary: z
+    .record(
+      z.object({
+        slug: z.string(),
+      })
+    )
+    .optional()
+    .default({}),
 });
 
 const DevToConfigSchema = z.object({
