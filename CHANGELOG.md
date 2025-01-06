@@ -1,5 +1,11 @@
 # mdcast
 
+## 0.0.8
+
+### Patch Changes
+
+- [`0a4a45e3e665da8a44d9e4d6a88e42fcc9c6f73c`](https://github.com/FranciscoMoretti/mdcast/commit/0a4a45e3e665da8a44d9e4d6a88e42fcc9c6f73c) Thanks [@FranciscoMoretti](https://github.com/FranciscoMoretti)! - multiple .envs
+
 ## 0.0.7
 
 ### Patch Changes
