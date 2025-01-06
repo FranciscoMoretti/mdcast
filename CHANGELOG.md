@@ -1,5 +1,11 @@
 # mdcast
 
+## 0.0.9
+
+### Patch Changes
+
+- [`3b0fba6a47c7ed4bd6d67f7cb41f590661ce8c22`](https://github.com/FranciscoMoretti/mdcast/commit/3b0fba6a47c7ed4bd6d67f7cb41f590661ce8c22) Thanks [@FranciscoMoretti](https://github.com/FranciscoMoretti)! - export type
+
 ## 0.0.8
 
 ### Patch Changes
