@@ -5,6 +5,8 @@ import { Platforms } from "./types/global-options";
 import { getPackageInfo } from "./utils/get-package-info";
 import { init } from "./commands/init";
 
+export { MdCastConfigInput } from "./config/schema";
+
 async function main() {
   const packageInfo = await getPackageInfo();
 
