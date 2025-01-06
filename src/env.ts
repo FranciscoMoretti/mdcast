@@ -1,6 +1,15 @@
 import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
 
+import dotenv from "dotenv";
+import path from "path";
+
+// // Read from .env, .env.local, .env.development, .env.development.local
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
+dotenv.config({ path: path.resolve(process.cwd(), ".env.development") });
+dotenv.config({ path: path.resolve(process.cwd(), ".env.development.local") });
+
 export const env = createEnv({
   /*
    * Specify what prefix the client-side variables must have.

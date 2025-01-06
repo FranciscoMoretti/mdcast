@@ -1,5 +1,8 @@
 node_modules
 dist
 .env
+.env.local
+.env.development
+.env.development.local
 config/local.json
 config/local**.json

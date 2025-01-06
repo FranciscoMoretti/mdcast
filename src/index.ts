@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import "dotenv/config";
 import post from "./commands/post";
 import { Command, program } from "commander";
 import { Platforms } from "./types/global-options";
