@@ -31,6 +31,11 @@ function validateEnvVars(platform: Platforms) {
           "HASHNODE_TOKEN env variable is required for Hashnode platform"
         );
       }
+      if (!env.HASHNODE_PUB_ID) {
+        handleError(
+          "HASHNODE_PUB_ID env variable is required for Hashnode platform"
+        );
+      }
       break;
     case Platforms.MEDIUM:
       if (!env.MEDIUM_TOKEN) {
@@ -81,7 +86,7 @@ export default async function post(
   if (platforms.includes(Platforms.HASHNODE)) {
     const connection_settings = {
       token: env.HASHNODE_TOKEN!,
-      publication_id: env.HASHNODE_PUBLICATION_ID,
+      publication_id: env.HASHNODE_PUB_ID,
     };
     const hashnode = new HashnodeClient(
       {

@@ -31,7 +31,7 @@ DEVTO_ORG_ID=optional_org_id
 
 # Required for Hashnode
 HASHNODE_TOKEN=your_token
-HASHNODE_PUBLICATION_ID=optional_pub_id
+HASHNODE_PUB_ID=optional_pub_id
 
 # Required for Medium
 MEDIUM_TOKEN=your_token
@@ -108,7 +108,7 @@ This README provides instructions for configuring API keys and IDs required for 
 
 - **HASHNODE_TOKEN (Required):** Your Hashnode personal token is essential for authentication. Ensure you have this token readily available.
 
-- **HASHNODE_PUBLICATION_ID (Optional):** The ID of the publication where you wish to publish the article can be found in two ways:
+- **HASHNODE_PUB_ID (Optional):** The ID of the publication where you wish to publish the article can be found in two ways:
   1.  From the publication's dashboard page, where the ID is the second part of the URL (e.g., `https://hashnode.com/PUB_ID/dashboard`).
 
 #### Medium

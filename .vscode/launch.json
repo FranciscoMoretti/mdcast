@@ -5,16 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch via NPM",
+      "name": "Launch via Bun",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "npm",
+      "runtimeExecutable": "bun",
       "skipFiles": ["<node_internals>/**"],
       "args": [
         "run",
         "dev",
+        "mdcast",
         "post",
-        "22-useful-console-log-methods-every-web-developer-should-know.md"
+        "node-file-writing-methods-createwritestream-vs-writefilesync.md",
+        "-p",
+        "hashnode"
       ]
     }
   ]

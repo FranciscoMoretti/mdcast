@@ -10,6 +10,36 @@ type HashnodeTag = {
   name: string;
 };
 
+type PostResponse = {
+  publishPost: {
+    post: {
+      id: string;
+      slug: string;
+      title: string;
+      subtitle?: string;
+      brief: string;
+      url: string;
+      canonicalUrl?: string;
+      publishedAt: string;
+      updatedAt?: string;
+      readTimeInMinutes: number;
+      views: number;
+      reactionCount: number;
+      responseCount: number;
+      featured: boolean;
+      bookmarked: boolean;
+      coverImage?: {
+        url: string;
+      };
+      tags?: {
+        id: string;
+        name: string;
+        slug: string;
+      }[];
+    };
+  };
+};
+
 type HashnodeTagDictionary = Record<string, { slug: string; id: string }>;
 
 class HashnodeClient {
@@ -127,12 +157,32 @@ class HashnodeClient {
       return;
     }
 
-    const post = await this.client
-      .request(mutation, data)
-      .catch((err) => console.error(err));
+    try {
+      const post = await this.client.request<PostResponse>(mutation, data);
 
-    // TODO: Get the address from post
-    console.log("Article pushed to Hashnode");
+      if (!post || !post.publishPost) {
+        throw new Error("Failed to publish post - no response data");
+      }
+
+      console.log(
+        `Article published to Hashnode with slug: ${post.publishPost.post.slug}`
+      );
+      return post.publishPost.post.slug;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Failed to publish to Hashnode:", errorMessage);
+
+      if (error instanceof Error && "response" in error) {
+        // GraphQL errors typically come in response.errors
+        const gqlError = error as any;
+        if (gqlError.response?.errors) {
+          console.error("GraphQL Errors:", gqlError.response.errors);
+        }
+      }
+
+      throw error; // Re-throw to let caller handle
+    }
   }
 
   async getPublicationPosts(

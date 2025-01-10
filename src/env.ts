@@ -20,7 +20,7 @@ export const env = createEnv({
     DEVTO_API_KEY: z.string().optional(),
     DEVTO_ORG_ID: z.string().optional(),
     HASHNODE_TOKEN: z.string().optional(),
-    HASHNODE_PUBLICATION_ID: z.string().optional(),
+    HASHNODE_PUB_ID: z.string().optional(),
     MEDIUM_TOKEN: z.string().optional(),
     MEDIUM_PUBLICATION_NAME: z.string().optional(),
   },
