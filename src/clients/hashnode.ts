@@ -48,11 +48,13 @@ class HashnodeClient {
   client: GraphQLClient;
   postData: Post;
   tagsDictionary: HashnodeTagDictionary;
+  dryRun: boolean;
 
-  constructor(config: HashnodeConfigSchema, postData: Post) {
+  constructor(config: HashnodeConfigSchema, postData: Post, dryRun: boolean) {
     this.connection_settings = config.connection_settings;
     this.options = config.options || {};
     this.postData = postData;
+    this.dryRun = dryRun;
     this.client = new GraphQLClient("https://gql.hashnode.com", {
       headers: {
         authorization: this.connection_settings.token,
@@ -107,7 +109,7 @@ class HashnodeClient {
     throw Error(`Tag ${queryTag} not found in dictionary`);
   }
 
-  async post(dryRun?: boolean) {
+  async post() {
     //get tags
     let hashNodeTags: HashnodeTag[] = [];
     const inputTags = this.postData.tags;
@@ -152,7 +154,7 @@ class HashnodeClient {
       input: publishPostInput,
     };
 
-    if (dryRun) {
+    if (this.dryRun) {
       console.log("No error occurred while preparing article for Hashnode.");
       return;
     }

@@ -23,6 +23,7 @@ export async function markdownToPost(markdownClient: MarkdownClient) {
     canonical_url: canonical_url,
     tags: tags,
     image: image_url,
+    slug: slug,
   };
   return postData;
 }

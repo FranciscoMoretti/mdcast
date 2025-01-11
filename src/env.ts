@@ -23,6 +23,7 @@ export const env = createEnv({
     HASHNODE_PUB_ID: z.string().optional(),
     MEDIUM_TOKEN: z.string().optional(),
     MEDIUM_PUBLICATION_NAME: z.string().optional(),
+    GITHUB_TOKEN_MEDIUM_TABLES: z.string().optional(),
   },
   client: {},
   /**

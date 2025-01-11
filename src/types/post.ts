@@ -1,8 +1,9 @@
-export type Post = {
+export interface Post {
   title: string;
-  markdown: string;
   description?: string;
-  canonical_url?: string;
-  tags?: string[];
   image?: string;
-};
+  markdown: string;
+  tags?: string[];
+  canonical_url?: string;
+  slug: string;
+}

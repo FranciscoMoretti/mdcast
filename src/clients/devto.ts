@@ -25,11 +25,13 @@ class DevToClient {
   options: DevToConfigSchema["options"];
   postData: Post;
   client: AxiosInstance;
+  dryRun: boolean;
 
-  constructor(config: DevToConfigSchema, postData: Post) {
+  constructor(config: DevToConfigSchema, postData: Post, dryRun: boolean) {
     this.connection_settings = config.connection_settings;
     this.options = config.options || {};
     this.postData = postData;
+    this.dryRun = dryRun;
 
     this.client = axios.create({
       baseURL: "https://dev.to/api/",
@@ -59,7 +61,7 @@ class DevToClient {
     return String(sanitized);
   }
 
-  async post(dryRun?: boolean) {
+  async post() {
     const normalizedTags = this.postData.tags
       ? this.postData.tags.map((tag) => normalizeTag(tag))
       : [];
@@ -90,7 +92,7 @@ class DevToClient {
       // ...(this.postData.date && { date: this.postData.date }),
     };
 
-    if (dryRun) {
+    if (this.dryRun) {
       console.log("No error occurred while preparing article for dev.to.");
       return;
     }

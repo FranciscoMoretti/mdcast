@@ -78,9 +78,10 @@ export default async function post(
         options: config.devto,
         connection_settings,
       },
-      postData
+      postData,
+      dryRun
     );
-    promises.push(devto.post(dryRun));
+    promises.push(devto.post());
   }
 
   if (platforms.includes(Platforms.HASHNODE)) {
@@ -93,24 +94,27 @@ export default async function post(
         options: config.hashnode,
         connection_settings,
       },
-      postData
+      postData,
+      dryRun
     );
-    promises.push(hashnode.post(dryRun));
+    promises.push(hashnode.post());
   }
 
   if (platforms.includes(Platforms.MEDIUM)) {
     const connection_settings = {
       token: env.MEDIUM_TOKEN!,
       publication_name: env.MEDIUM_PUBLICATION_NAME,
+      gist_secret: env.GITHUB_TOKEN_MEDIUM_TABLES,
     };
     const medium = new MediumClient(
       {
         options: config.medium,
         connection_settings: connection_settings,
       },
-      postData
+      postData,
+      dryRun
     );
-    promises.push(medium.post(dryRun));
+    promises.push(medium.post());
   }
 
   await Promise.all(promises).then(() =>

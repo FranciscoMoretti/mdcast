@@ -119,6 +119,17 @@ This README provides instructions for configuring API keys and IDs required for 
 
 Please ensure you have the required credentials and follow the respective links provided to retrieve them.
 
+#### Medium Tables with nice formatting (Optional)
+
+Medium does not support tables in markdown, so we need to use a gist to save the table content. GitHub gists provide a nice markdown table formatting. If not provided, the table will be saved as a markdown codeblock.
+
+- **GITHUB_TOKEN_MEDIUM_TABLES (Optional):** The GitHub token is required for the Medium client to create a gist and save the table content as a markdown file. You can obtain this token by following [this link](https://github.com/settings/tokens).
+
+You'll need to:
+
+1. Create a GitHub Personal Access Token (PAT) with gist scope at https://github.com/settings/tokens
+2. Add it to your .env file as GITHUB_TOKEN_MEDIUM_TABLES or similar
+
 ## Tags Configuration
 
 Each platform requires specific tag formats. You can configure tag mappings in your `mdcast.config.json` under the `tags_dictionary` field for each platform:

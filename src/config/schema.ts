@@ -54,6 +54,7 @@ const MediumConfigSchema = z.object({
   connection_settings: z.object({
     token: z.string(),
     publication_name: z.string().optional(),
+    gist_secret: z.string().optional(),
   }),
   options: MediumOptionsSchema,
 });
