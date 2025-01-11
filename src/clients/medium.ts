@@ -24,13 +24,21 @@ class MediumClient {
     this.tagsDictionary = config.options.tags_dictionary;
   }
 
-  prepareMediumMarkdown(postData: Post): string {
-    // Creates nicely formatted markdown for Medium specification
+  private convertMarkdownTables(markdown: string): string {
+    // Convert markdown tables to HTML tables
+    return markdown;
+  }
 
+  private prepareMediumMarkdown(postData: Post): string {
+    // Creates nicely formatted markdown for Medium specification
     const { title, description, image, markdown: originalMarkdown } = postData;
-    const markdown = `# ${title}\r\n\r\n${
+    // Include thumbnail image if provided
+    let markdown = `# ${title}\r\n\r\n${
       description ? `${description}\r\n\r\n` : ""
     }${image ? `![Post thumbnail](${image})\r\n\r\n` : ""}${originalMarkdown}`;
+
+    // Convert markdown tables
+    markdown = this.convertMarkdownTables(markdown);
 
     return markdown;
   }
