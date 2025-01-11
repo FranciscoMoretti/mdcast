@@ -1,5 +1,13 @@
 # mdcast
 
+## 0.0.10
+
+### Patch Changes
+
+- [`18b44cbd2cc61a039e59fe70bc2f660f4d989cfb`](https://github.com/FranciscoMoretti/mdcast/commit/18b44cbd2cc61a039e59fe70bc2f660f4d989cfb) Thanks [@FranciscoMoretti](https://github.com/FranciscoMoretti)! - handling for medium tables and codeblocks
+
+- [`80b1399e221b20c8b0a0fdf8410eb61962238013`](https://github.com/FranciscoMoretti/mdcast/commit/80b1399e221b20c8b0a0fdf8410eb61962238013) Thanks [@FranciscoMoretti](https://github.com/FranciscoMoretti)! - fix hashnode client
+
 ## 0.0.9
 
 ### Patch Changes
