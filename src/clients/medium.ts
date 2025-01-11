@@ -24,6 +24,17 @@ class MediumClient {
     this.tagsDictionary = config.options.tags_dictionary;
   }
 
+  prepareMediumMarkdown(postData: Post): string {
+    // Creates nicely formatted markdown for Medium specification
+
+    const { title, description, image, markdown: originalMarkdown } = postData;
+    const markdown = `# ${title}\r\n\r\n${
+      description ? `${description}\r\n\r\n` : ""
+    }${image ? `![Post thumbnail](${image})\r\n\r\n` : ""}${originalMarkdown}`;
+
+    return markdown;
+  }
+
   async post(dryRun?: boolean) {
     //get user ID
     const {
@@ -51,13 +62,7 @@ class MediumClient {
 
     //get post title and add it to the top of the markdown content
     const { title } = this.postData;
-    const subtitle = this.postData.description;
-    const { image } = this.postData;
-    const markdown = `# ${title}\r\n\r\n${
-      subtitle ? `${subtitle}\r\n\r\n` : ""
-    }${image ? `![Post thumbnail](${image})\r\n\r\n` : ""}${
-      this.postData.markdown
-    }`;
+    const markdown = this.prepareMediumMarkdown(this.postData);
 
     if (dryRun) {
       console.log("No error occurred while preparing article for Medium.");

@@ -6,3 +6,4 @@ dist
 .env.development.local
 config/local.json
 config/local**.json
+data
