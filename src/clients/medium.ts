@@ -130,7 +130,7 @@ class MediumClient {
             return;
 
           const className = codeNode.properties["className"];
-          let lang = "markdown"; // TODO: get default lang from config
+          let lang = undefined;
           if (className) {
             if (typeof className === "string") {
               lang = className.replace("language-", "");
@@ -143,7 +143,9 @@ class MediumClient {
               }
             }
           }
-
+          if (!lang) {
+            return;
+          }
           node.properties = {
             "data-code-block-mode": "2",
             "data-code-block-lang": lang,

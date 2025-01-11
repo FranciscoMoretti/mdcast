@@ -72,6 +72,7 @@ const FrontMatterPropertiesSchema = z.object({
 
 const MarkdownConfigSchema = z.object({
   frontmatterProperties: FrontMatterPropertiesSchema.optional().default({}),
+  default_lang: z.string().optional().default(""),
   link_url_base: z.string().default(""),
   canonical_url_base: z.string().default(""),
   image_url_base: z.string().default(""),

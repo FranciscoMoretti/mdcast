@@ -95,6 +95,19 @@ class MarkdownClient {
           });
         }
       )
+      .use(
+        // Insert default lang in code blocks
+        () => (tree: Root) => {
+          visit(tree, (node: Nodes) => {
+            if (node.type === "code") {
+              if (!node.lang && this.config.default_lang) {
+                // Only insert default lang if it's not already set
+                node.lang = this.config.default_lang;
+              }
+            }
+          });
+        }
+      )
       .use(() => (tree: Root) => {
         // Remove frontmatter node from the tree
         const [frontmatterNode, ...restNodes]: RootContent[] = tree.children;

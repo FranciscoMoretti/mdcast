@@ -14,6 +14,7 @@ const config: MdCastConfigInput = {
     canonical_url_base: "https://www.franciscomoretti.com/blog",
     link_url_base: "https://www.franciscomoretti.com",
     image_url_base: "https://www.franciscomoretti.com",
+    default_lang: "typescript",
   },
   devto: {
     should_publish: true,
