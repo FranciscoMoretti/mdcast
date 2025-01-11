@@ -1,5 +1,11 @@
 # mdcast
 
+## 0.0.11
+
+### Patch Changes
+
+- [`b67c1df5ae5dc54058823f3fc714f5909e335643`](https://github.com/FranciscoMoretti/mdcast/commit/b67c1df5ae5dc54058823f3fc714f5909e335643) Thanks [@FranciscoMoretti](https://github.com/FranciscoMoretti)! - default code language code blocks
+
 ## 0.0.10
 
 ### Patch Changes
