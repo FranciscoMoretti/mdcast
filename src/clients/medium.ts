@@ -3,6 +3,12 @@ import { Post } from "../types/post";
 import { normalizeTag } from "../utils/normalize-tag";
 import { MediumConfigSchema } from "../config/schema";
 
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkStringify from "remark-stringify";
+import remarkGfm from "remark-gfm";
+import { visit } from "unist-util-visit";
+
 class MediumClient {
   connection_settings: MediumConfigSchema["connection_settings"];
   options: MediumConfigSchema["options"];
@@ -24,23 +30,41 @@ class MediumClient {
     this.tagsDictionary = config.options.tags_dictionary;
   }
 
-  private convertMarkdownTables(markdown: string): string {
-    // Convert markdown tables to HTML tables
-    return markdown;
+  private async convertMarkdownTables(markdown: string): Promise<string> {
+    const sanitized = await unified()
+      .use(remarkParse)
+      .use(remarkGfm)
+      .use(() => (tree) => {
+        visit(tree, "table", (node, index, parent) => {
+          if (!parent || typeof index !== "number") return;
+
+          const tableContent = unified()
+            .use(remarkGfm)
+            .use(remarkStringify)
+            .stringify({ type: "root", children: [node] });
+
+          parent.children[index] = {
+            type: "code",
+            lang: "markdown",
+            value: tableContent.trim(),
+          };
+        });
+      })
+      .use(remarkStringify)
+      .process(markdown);
+    return String(sanitized);
   }
 
-  private prepareMediumMarkdown(postData: Post): string {
+  private prepareMediumMarkdown(postData: Post): Promise<string> {
     // Creates nicely formatted markdown for Medium specification
     const { title, description, image, markdown: originalMarkdown } = postData;
     // Include thumbnail image if provided
-    let markdown = `# ${title}\r\n\r\n${
+    const markdown = `# ${title}\r\n\r\n${
       description ? `${description}\r\n\r\n` : ""
     }${image ? `![Post thumbnail](${image})\r\n\r\n` : ""}${originalMarkdown}`;
 
     // Convert markdown tables
-    markdown = this.convertMarkdownTables(markdown);
-
-    return markdown;
+    return this.convertMarkdownTables(markdown);
   }
 
   async post(dryRun?: boolean) {
@@ -70,7 +94,9 @@ class MediumClient {
 
     //get post title and add it to the top of the markdown content
     const { title } = this.postData;
-    const markdown = this.prepareMediumMarkdown(this.postData);
+    const markdown = await this.prepareMediumMarkdown(this.postData);
+
+    console.log(markdown);
 
     if (dryRun) {
       console.log("No error occurred while preparing article for Medium.");
