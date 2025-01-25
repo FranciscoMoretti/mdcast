@@ -1,5 +1,0 @@
----
-"mdcast": patch
----
-
-giphy api
