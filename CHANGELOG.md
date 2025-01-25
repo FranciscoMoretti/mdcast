@@ -1,5 +1,11 @@
 # mdcast
 
+## 0.0.12
+
+### Patch Changes
+
+- [`7a47aec319c7351bff4bb39022bafa9dab7eb3b7`](https://github.com/FranciscoMoretti/mdcast/commit/7a47aec319c7351bff4bb39022bafa9dab7eb3b7) Thanks [@FranciscoMoretti](https://github.com/FranciscoMoretti)! - giphy api
+
 ## 0.0.11
 
 ### Patch Changes
