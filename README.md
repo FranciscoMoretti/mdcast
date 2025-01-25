@@ -104,14 +104,19 @@ This README provides instructions for configuring API keys and IDs required for 
   1.  From the organization dashboard page, where the ID is the last part of the URL. (e.g., `https://dev.to/dashboard/organization/ORG_ID`).
   2.  Alternatively, you can use the Dev.to List Organizations endpoint to discover the ID.
 
+#### Dev.to sanitized gifs (Optional)
+
+Dev.to has a file size limit for GIF uploads. To work around this, you can upload your GIFs to Giphy first and use the Giphy URL in your posts instead.
+
+- **GIPHY_API_KEY_DEVTO_GIFS (Optional):** The Giphy API key is required for uploading GIFs to Giphy. You can obtain this key by following [this link](https://developers.giphy.com/dashboard/).
+
 #### Hashnode
 
 - **HASHNODE_TOKEN (Required):** Your Hashnode personal token is essential for authentication. Ensure you have this token readily available.
 
-- **HASHNODE_PUB_ID (Optional):** The ID of the publication where you wish to publish the article can be found in two ways:
-  1.  From the publication's dashboard page, where the ID is the second part of the URL (e.g., `https://hashnode.com/PUB_ID/dashboard`).
+- **HASHNODE_PUB_ID (Optional):** The ID of the publication where you wish to publish the article can be found in publication's dashboard page, where the ID is the second part of the URL (e.g., `https://hashnode.com/PUB_ID/dashboard`).
 
-#### Medium
+### Medium
 
 - **MEDIUM_TOKEN (Required):** The Medium Integration Token is required for authentication. You can obtain this token by following [this link](https://medium.com/me/settings/security).
 

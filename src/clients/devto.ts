@@ -7,6 +7,7 @@ import remarkStringify from "remark-stringify";
 import remarkGfm from "remark-gfm";
 import { visit } from "unist-util-visit";
 import { DevToConfigSchema } from "../config/schema";
+import { Image } from "mdast";
 
 type ArticleData = {
   body_markdown: string;
@@ -25,6 +26,7 @@ class DevToClient {
   options: DevToConfigSchema["options"];
   postData: Post;
   client: AxiosInstance;
+  giphyClient: AxiosInstance | undefined;
   dryRun: boolean;
 
   constructor(config: DevToConfigSchema, postData: Post, dryRun: boolean) {
@@ -40,6 +42,41 @@ class DevToClient {
         Accept: "application/vnd.forem.api-v1+json",
       },
     });
+
+    if (this.connection_settings.giphy_api_key) {
+      this.giphyClient = axios.create({
+        baseURL: "https://upload.giphy.com/v1/",
+        params: {
+          api_key: this.connection_settings.giphy_api_key,
+        },
+      });
+    }
+  }
+
+  private async uploadToGiphy(gifUrl: string): Promise<string | undefined> {
+    if (!this.giphyClient) {
+      console.warn("Giphy API key not configured, skipping GIF upload");
+      return undefined;
+    }
+
+    if (this.dryRun) {
+      return "https://media.giphy.com/media/example/giphy.gif";
+    }
+
+    try {
+      const response = await this.giphyClient.post("gifs", {
+        source_image_url: gifUrl,
+        tags: ["blog", this.postData.slug],
+        source_post_url: this.postData.canonical_url,
+      });
+
+      if (response.data?.data?.id) {
+        return `https://media.giphy.com/media/${response.data.data.id}/giphy.gif`;
+      }
+    } catch (error) {
+      console.error("Failed to upload GIF to Giphy:", error);
+    }
+    return undefined;
   }
 
   private async sanitizeMarkdown(markdown: string): Promise<string> {
@@ -51,9 +88,28 @@ class DevToClient {
         () => (tree) => {
           visit(tree, (node) => {
             if (node.type === "code") {
-              node.meta = "";
+              (node as any).meta = "";
             }
           });
+        }
+      )
+      .use(
+        // Handle GIFs by uploading them to Giphy
+        () => async (tree) => {
+          const promises: Promise<void>[] = [];
+          visit(tree, "image", (node: Image) => {
+            if (node.url.toLowerCase().endsWith(".gif")) {
+              promises.push(
+                (async () => {
+                  const giphyUrl = await this.uploadToGiphy(node.url);
+                  if (giphyUrl) {
+                    node.url = giphyUrl;
+                  }
+                })()
+              );
+            }
+          });
+          await Promise.all(promises);
         }
       )
       .use(remarkStringify)
@@ -93,6 +149,7 @@ class DevToClient {
     };
 
     if (this.dryRun) {
+      console.log("Article prepared for dev.to:", article);
       console.log("No error occurred while preparing article for dev.to.");
       return;
     }

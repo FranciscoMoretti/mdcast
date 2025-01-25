@@ -34,6 +34,7 @@ const DevToConfigSchema = z.object({
   connection_settings: z.object({
     api_key: z.string(),
     organization_id: z.string().optional(),
+    giphy_api_key: z.string().optional(),
   }),
   options: DevToOptionsSchema,
 });

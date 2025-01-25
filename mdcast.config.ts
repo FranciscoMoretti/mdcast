@@ -17,7 +17,7 @@ const config: MdCastConfigInput = {
     default_lang: "typescript",
   },
   devto: {
-    should_publish: true,
+    should_publish: false,
   },
   hashnode: {
     should_hide: false,

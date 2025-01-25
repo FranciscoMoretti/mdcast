@@ -19,6 +19,7 @@ export const env = createEnv({
   server: {
     DEVTO_API_KEY: z.string().optional(),
     DEVTO_ORG_ID: z.string().optional(),
+    GIPHY_API_KEY_DEVTO_GIFS: z.string().optional(),
     HASHNODE_TOKEN: z.string().optional(),
     HASHNODE_PUB_ID: z.string().optional(),
     MEDIUM_TOKEN: z.string().optional(),

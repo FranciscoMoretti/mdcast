@@ -72,6 +72,7 @@ export default async function post(
     const connection_settings = {
       api_key: env.DEVTO_API_KEY!,
       organization_id: env.DEVTO_ORG_ID,
+      giphy_api_key: env.GIPHY_API_KEY_DEVTO_GIFS,
     };
     const devto = new DevToClient(
       {
